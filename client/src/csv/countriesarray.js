@@ -180,7 +180,7 @@ let countries = [
   "Slovakia",
   "Slovenia",
   "Somalia",
-  "S-Korea",
+  "South Korea",
   "South-Africa",
   "South-Sudan",
   "Spain",
