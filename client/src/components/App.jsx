@@ -26,6 +26,9 @@ class App extends Component {
       form: false,
       bycontinent: false,
       bytop30: false,
+      top30Name: "",
+      countryName: "",
+      continentName: "",
       total: [],
       tested: [],
       deceased: [],
@@ -37,7 +40,9 @@ class App extends Component {
     // this.getTotal = this.getTotal.bind(shis);
     this.setCountry = this.setCountry.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onCountrySubmit = this.onCountrySubmit.bind(this);
+    this.onContinentSubmit = this.onContinentSubmit.bind(this);
+    this.onTop30Submit = this.onTop30Submit.bind(this);
     this.getGlobal = this.getGlobal.bind(this);
     this.getTop30Cases = this.getTop30Cases.bind(this);
     this.getTop30Deceased = this.getTop30Deceased.bind(this);
@@ -52,15 +57,23 @@ class App extends Component {
       [key]: value,
     });
   }
-  onSubmit(e) {
+
+  onCountrySubmit(e) {
     e.preventDefault();
     if (this.state.currCountry === "South Korea") {
       this.getInfo("S-Korea");
     } else if (this.state.currCountry === "All") {
       this.getGlobal();
     } else {
-      this.getInfo(this.state.selection);
+      this.getInfo(this.state.countryName);
     }
+  }
+  onContinentSubmit(e) {
+    e.preventDefault();
+  }
+
+  onTop30Submit(e) {
+    e.preventDefault();
   }
 
   setCountry(res) {
@@ -189,7 +202,12 @@ class App extends Component {
       <BaseWrapper>
         <MainTitle>COVID-19 Tracker</MainTitle>
         <LastUpdated>Updated {fromNow}</LastUpdated>
-        <Form onChange={this.onChange} onSubmit={this.onSubmit} />
+        <Form
+          onChange={this.onChange}
+          onCountrySubmit={this.onCountrySubmit}
+          onContinentSubmit={this.onContinentSubmit}
+          onTop30Submit={this.onTop30Submit}
+        />
         {this.state.global ? <Global data={this.state.total} /> : null}
         {this.state.form ? <CountryTable data={this.state.data} /> : null}
         {this.state.global ? <GlobalChart data={this.state.total} /> : null}

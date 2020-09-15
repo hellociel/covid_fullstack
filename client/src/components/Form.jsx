@@ -12,9 +12,9 @@ import {
 const Form = (props) => (
   <FormWrapper>
     <FormDiv>
-      <FormStyle onSubmit={props.onSubmit}>
+      <FormStyle onSubmit={props.onCountrySubmit}>
         <Label>By Country</Label>
-        <Select name="selection" id="selection" onChange={props.onChange}>
+        <Select name="selection" id="countryName" onChange={props.onChange}>
           <OptionVal id="currCountry" selected="selected">
             All
           </OptionVal>
@@ -28,9 +28,9 @@ const Form = (props) => (
       </FormStyle>
     </FormDiv>
     <FormDiv>
-      <FormStyle onSubmit={props.onSubmit}>
+      <FormStyle onSubmit={props.onContinentSubmit}>
         <Label>By Continents</Label>
-        <Select name="selection" id="selection" onChange={props.onChange}>
+        <Select name="selection" id="continentName" onChange={props.onChange}>
           <OptionVal unselected="selected" value="global">
             All
           </OptionVal>
@@ -44,9 +44,9 @@ const Form = (props) => (
       </FormStyle>
     </FormDiv>
     <FormDiv>
-      <FormStyle onSubmit={props.onSubmit}>
+      <FormStyle onSubmit={props.onTop30Submit}>
         <Label>By Top 30</Label>
-        <Select name="selection" id="selection" onChange={props.onChange}>
+        <Select name="selection" id="top30Name" onChange={props.onChange}>
           <OptionVal selected="selected">All</OptionVal>
           <OptionVal id="top30" value="topcases">
             Total Cases
