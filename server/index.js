@@ -16,25 +16,21 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 // Start the server on the provided port
 app.listen(PORT, () => console.log("Listening on port: " + PORT));
 
-// app.get("/world", function (req, res) {
-//   axios({
-//     method: "GET",
-//     url: "https://covid-193.p.rapidapi.com/statistics",
-//     headers: {
-//       "content-type": "application/octet-stream",
-//       "x-rapidapi-host": "covid-193.p.rapidapi.com",
-//       "x-rapidapi-key": "73c056e900mshfbab3af5eba769dp137327jsn69d1142005a4",
-//       useQueryString: true,
-//     },
-//   })
-//     .then((response) => {
-//       console.log("RESPONSE", response.data.response);
-//     })
-//     .catch((error) => {
-//       console.log("ERROR", error);
-//     });
-// });
-
+app.get("/country", function (req, res) {
+  db.getCountry(req, res);
+});
+app.get("/global", function (req, res) {
+  db.getGlobal(req, res);
+});
+app.get("/topcases", function (req, res) {
+  db.getCases(req, res);
+});
+app.get("/topdeceased", function (req, res) {
+  db.getDeceased(req, res);
+});
+app.get("/toptested", function (req, res) {
+  db.getTested(req, res);
+});
 app.get("/total", function (req, res) {
   axios({
     method: "GET",
@@ -56,24 +52,3 @@ app.get("/total", function (req, res) {
       console.log("ERROR", error);
     });
 });
-
-// var unirest = require("unirest");
-
-// var req = unirest("GET", "https://covid-19-data.p.rapidapi.com/country");
-
-// req.query({
-//   format: "json",
-//   name: "france",
-// });
-
-// req.headers({
-//   "x-rapidapi-host": "covid-19-data.p.rapidapi.com",
-//   "x-rapidapi-key": "73c056e900mshfbab3af5eba769dp137327jsn69d1142005a4",
-//   useQueryString: true,
-// });
-
-// req.end(function (res) {
-//   if (res.error) throw new Error(res.error);
-
-//   console.log(res.body);
-// });

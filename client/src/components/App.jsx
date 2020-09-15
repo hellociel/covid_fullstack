@@ -1,7 +1,17 @@
 import React, { Component } from "react";
-import List from "./Chart.jsx";
 import axios from "axios";
 import Form from "./Form.jsx";
+import Table from "./Table.jsx";
+import StatusBar from "./StatusBar.jsx";
+import styled from "styled-components";
+import {
+  BaseWrapper,
+  MainTitle,
+  LastUpdated,
+} from "../styledComponents/AppStyle.jsx";
+import GlobalChart from "./GlobalChart.jsx";
+import Global from "./Global.jsx";
+import moment from "moment";
 // import fs from "fs";
 // const fs = require("fs");
 
@@ -11,50 +21,55 @@ class App extends Component {
     this.state = {
       countries: [],
       data: [],
-      currData: {
-        country: "Italy",
-        code: "IT",
-        confirmed: 219070,
-        recovered: 105186,
-        critical: 1027,
-        deaths: 30560,
-        latitude: 41.87194,
-        longitude: 12.56738,
-        lastChange: "2020-05-10T18:12:02+02:00",
-        lastUpdate: "2020-05-11T04:00:03+02:00",
-      },
       currCountry: "",
       daily: [],
+      global: true,
+      form: false,
+      total: [],
+      tested: [],
+      deceased: [],
+      cases: [],
     };
     this.getInfo = this.getInfo.bind(this);
-    this.getWorld = this.getWorld.bind(this);
+    // this.getTotal = this.getTotal.bind(shis);
     this.setCountry = this.setCountry.bind(this);
-
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.getGlobal = this.getGlobal.bind(this);
+    this.getTop30Cases = this.getTop30Cases.bind(this);
+    this.getTop30Deceased = this.getTop30Deceased.bind(this);
+    this.getTop30Tested = this.getTop30Tested.bind(this);
   }
 
   onChange(e) {
     e.preventDefault();
     this.setState({ currCountry: e.target.value });
   }
-  onSubmit() {
-    this.getInfo(this.state.currCountry);
+  onSubmit(e) {
+    e.preventDefault();
+    if (this.state.currCountry === "South Korea") {
+      this.getInfo("S-Korea");
+    } else {
+      this.getInfo(this.state.currCountry);
+    }
   }
 
   setCountry(res) {
-    // this.setState({
-    //   country: res.country,
-    //   code: res.code,
-    //   confirmed: res.confirmed,
-    //   recovered: res.recovered,
-    //   critical: res.critical,
-    //   deaths: res.deaths,
-    //   latitude: res.latitude,
-    //   longitude: res.longitude,
-    //   lastChange: res.lastChange,
-    //   lastUpdate: res.lastUpdate,
-    // });
+    this.setState({
+      activecases: res.activecases,
+      continent: res.continent,
+      criticalcases: res.criticalcases,
+      name: res.name,
+      newcases: res.newcases,
+      newdeaths: res.newdeaths,
+      population: res.population,
+      recoveredcases: res.recoveredcases,
+      totalcases: res.totalcases,
+      totaldeaths: res.totaldeaths,
+      totaltests: res.tests,
+      updatedday: res.updatedday,
+      updatedtime: res.updatedtime,
+    });
   }
 
   getInfo(name) {
@@ -66,63 +81,106 @@ class App extends Component {
       })
       .then((response) => {
         // handle success
-        console.log("GET INFO IN APP.JSX", response.data);
-
+        // console.log("GET INFO IN APP.JSX", response);
         //handle setting the state
-        // this.setState({ currData: response.data });
+        this.setState({ data: response.data });
+      })
+      .then(() => {
+        this.setState({ global: false, form: true });
       })
       .catch((error) => {
         // handle error
         console.log(error);
       });
   }
-
-  getWorld() {
+  getGlobal() {
     axios
-      .get("/world", {
-        params: {
-          country: name,
-        },
-      })
+      .get("/global")
       .then((response) => {
         // handle success
-        console.log("GET INFO IN APP.JSX", response.data);
+        console.log("GLOBAL", response.data);
 
-        //handle setting the state
-        // this.setState({ currData: response.data });
+        this.setState({ total: response.data });
       })
       .catch((error) => {
         // handle error
         console.log(error);
       });
   }
+  // getTotal() {
+  //   axios
+  //     .get("/total")
+  //     .then((response) => {
+  //       // handle success
+  //       // console.log("DAILY IN APP.JSX", response.data);
+  //       // this.setState({ total: total });
+  //     })
+  //     .catch((error) => {
+  //       // handle error
+  //       console.log(error);
+  //     });
+  // }
 
-  getTotal() {
+  getTop30Cases() {
     axios
-      .get("/total")
+      .get("/topcases")
       .then((response) => {
         // handle success
-        // console.log("DAILY IN APP.JSX", response.data);
+        console.log("GLOBAL", response.data);
+
+        this.setState({ cases: response.data });
       })
       .catch((error) => {
         // handle error
         console.log(error);
       });
   }
+  getTop30Deceased() {
+    axios
+      .get("/topdeceased")
+      .then((response) => {
+        // handle success
+        console.log("GLOBAL", response.data);
+
+        this.setState({ deceased: response.data });
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
+  }
+  getTop30Tested() {
+    axios
+      .get("/toptested")
+      .then((response) => {
+        // handle success
+        console.log("GLOBAL", response.data);
+
+        this.setState({ tested: response.data });
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
+  }
+
   componentDidMount() {
     // this.getInfo("Italy");
-    this.getTotal();
+    this.getGlobal();
   }
   render() {
+    let updatedday = this.state.data.updatedtime;
+    let fromNow = moment(updatedday).startOf("day").fromNow();
     return (
-      <div>
+      <BaseWrapper>
+        <MainTitle>COVID-19 Tracker</MainTitle>
+        <LastUpdated>Updated {fromNow}</LastUpdated>
         <Form onChange={this.onChange} onSubmit={this.onSubmit} />
-        <List
-          name={this.state.currData.country}
-          confirmed={this.state.currData.confirmed}
-          daily={this.state.currData.daily}
-        />
-      </div>
+        {this.state.global ? <Global data={this.state.total} /> : null}
+        {this.state.form ? <StatusBar data={this.state.data} /> : null}
+        {this.state.global ? <GlobalChart data={this.state.total} /> : null}
+        {this.state.form ? <GlobalChart data={this.state.data} /> : null}
+      </BaseWrapper>
     );
   }
 }

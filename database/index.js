@@ -1,3 +1,4 @@
+const { response } = require("express");
 var mysql = require("mysql");
 var connection = mysql.createConnection({
   host: "localhost",
@@ -7,9 +8,86 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-const getCountry = function (name) {
-  connection.query(`SELECT * FROM countries WHERE name=${name}`);
+const getCountry = function (req, res) {
+  let name = req.query.country;
+  console.log("NAME", name);
+  connection.query(
+    `SELECT * FROM countries WHERE name="${name}";`,
+    (err, data) => {
+      console.log("result from db", data[0]);
+      if (err) {
+        res.status(404).send(err);
+      }
+      res.status(200).send(data[0]);
+    }
+  );
 };
+
+const getGlobal = function (req, res) {
+  let name = req.query.country;
+  console.log("NAME", name);
+  connection.query(`SELECT * FROM countries WHERE name="All";`, (err, data) => {
+    console.log("result from db", data[0]);
+    if (err) {
+      res.status(404).send(err);
+    }
+    res.status(200).send(data[0]);
+  });
+};
+
+const getCases = function (req, res) {
+  let name = req.query.country;
+  console.log("NAME", name);
+  connection.query(
+    `SELECT name, population, newcases, totalcases FROM countries ORDER BY totalcases LIMIT 30;`,
+    (err, data) => {
+      console.log("result from db", data[0]);
+      if (err) {
+        res.status(404).send(err);
+      }
+      res.status(200).send(data[0]);
+    }
+  );
+};
+
+const getDeceased = function (req, res) {
+  let name = req.query.country;
+  console.log("NAME", name);
+  connection.query(
+    `SELECT name, population, newdeaths, totaldeaths, criticalcases  FROM countries ORDER BY totaldeaths LIMIT 30;`,
+    (err, data) => {
+      console.log("result from db", data[0]);
+      if (err) {
+        res.status(404).send(err);
+      }
+      res.status(200).send(data[0]);
+    }
+  );
+};
+
+const getTested = function (req, res) {
+  let name = req.query.country;
+  console.log("NAME", name);
+  connection.query(
+    `SELECT name, population, totaltests FROM countries ORDER BY (totaltests/population) LIMIT 30;`,
+    (err, data) => {
+      console.log("result from db", data[0]);
+      if (err) {
+        res.status(404).send(err);
+      }
+      res.status(200).send(data[0]);
+    }
+  );
+};
+// const getCountryNames = function (req, res) {
+//   connection.query(`SELECT name FROM countries WHERE id > 120;`, (err, data) => {
+//     if (err) {
+//       res.status(404).send(err);
+//     } else {
+//       res.status(200).send(data);
+//     }
+//   });
+// };
 
 const saveCountries = function (countries) {
   // console.log(countries[0]);
@@ -44,6 +122,10 @@ const saveCountries = function (countries) {
 // });
 
 exports.getCountry = getCountry;
+exports.getGlobal = getGlobal;
 exports.saveCountries = saveCountries;
+exports.getCases = getCases;
+exports.getDeceased = getDeceased;
+exports.getTested = getTested;
 // (continent, name, population, newcases, activecases, criticalcases, recoveredcases, totalcases, newdeaths, totaldeaths, totaltests, updatedday, updatedtime)
 // `INSERT INTO countries (continent, name, population, newcases, activecases, criticalcases, recoveredcases, totalcases, newdeaths, totaldeaths, totaltests, updatedday, updatedtime) VALUES ("Asia", "Korea", 5000000, 100, 400, 40, 6, 600, 0, 200, 234567, "2020-09-11", ${updatedtime});`;
