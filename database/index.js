@@ -67,9 +67,24 @@ const getDeceased = function (req, res) {
 
 const getTested = function (req, res) {
   let name = req.query.country;
-  console.log("NAME", name);
+  // console.log("NAME", name);
   connection.query(
     `SELECT name, population, totaltests FROM countries ORDER BY (totaltests/population) LIMIT 30;`,
+    (err, data) => {
+      console.log("result from db", data[0]);
+      if (err) {
+        res.status(404).send(err);
+      }
+      res.status(200).send(data[0]);
+    }
+  );
+};
+
+const getByContinent = function (req, res) {
+  let name = req.query.continent;
+  // console.log("NAME", name);
+  connection.query(
+    `SELECT * FROM countries WHERE continent="${name}" ORDER BY (totalcases);`,
     (err, data) => {
       console.log("result from db", data[0]);
       if (err) {
@@ -127,5 +142,6 @@ exports.saveCountries = saveCountries;
 exports.getCases = getCases;
 exports.getDeceased = getDeceased;
 exports.getTested = getTested;
+exports.getByContinent = getByContinent;
 // (continent, name, population, newcases, activecases, criticalcases, recoveredcases, totalcases, newdeaths, totaldeaths, totaltests, updatedday, updatedtime)
 // `INSERT INTO countries (continent, name, population, newcases, activecases, criticalcases, recoveredcases, totalcases, newdeaths, totaldeaths, totaltests, updatedday, updatedtime) VALUES ("Asia", "Korea", 5000000, 100, 400, 40, 6, 600, 0, 200, 234567, "2020-09-11", ${updatedtime});`;

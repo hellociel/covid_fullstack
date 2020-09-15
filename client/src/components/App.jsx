@@ -29,6 +29,8 @@ class App extends Component {
       tested: [],
       deceased: [],
       cases: [],
+      continent: [],
+      top30: [],
     };
     this.getInfo = this.getInfo.bind(this);
     // this.getTotal = this.getTotal.bind(shis);
@@ -43,14 +45,20 @@ class App extends Component {
 
   onChange(e) {
     e.preventDefault();
-    this.setState({ currCountry: e.target.value });
+    let key = e.target.id;
+    let value = e.target.value;
+    this.setState({
+      [key]: value,
+    });
   }
   onSubmit(e) {
     e.preventDefault();
     if (this.state.currCountry === "South Korea") {
       this.getInfo("S-Korea");
+    } else if (this.state.currCountry === "All") {
+      this.getGlobal();
     } else {
-      this.getInfo(this.state.currCountry);
+      this.getInfo(this.state.selection);
     }
   }
 
@@ -107,26 +115,31 @@ class App extends Component {
         console.log(error);
       });
   }
-  // getTotal() {
-  //   axios
-  //     .get("/total")
-  //     .then((response) => {
-  //       // handle success
-  //       // console.log("DAILY IN APP.JSX", response.data);
-  //       // this.setState({ total: total });
-  //     })
-  //     .catch((error) => {
-  //       // handle error
-  //       console.log(error);
-  //     });
-  // }
 
+  getByContinent(continent) {
+    axios
+      .get("/continent", {
+        params: {
+          continent: continent,
+        },
+      })
+      .then((response) => {
+        // handle success
+        // console.log("GLOBAL", response.data);
+
+        this.setState({ continent: response.data });
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
+  }
   getTop30Cases() {
     axios
       .get("/topcases")
       .then((response) => {
         // handle success
-        console.log("GLOBAL", response.data);
+        // console.log("GLOBAL", response.data);
 
         this.setState({ cases: response.data });
       })
@@ -140,7 +153,7 @@ class App extends Component {
       .get("/topdeceased")
       .then((response) => {
         // handle success
-        console.log("GLOBAL", response.data);
+        // console.log("GLOBAL", response.data);
 
         this.setState({ deceased: response.data });
       })
@@ -154,7 +167,7 @@ class App extends Component {
       .get("/toptested")
       .then((response) => {
         // handle success
-        console.log("GLOBAL", response.data);
+        // console.log("GLOBAL", response.data);
 
         this.setState({ tested: response.data });
       })

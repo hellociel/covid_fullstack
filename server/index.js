@@ -31,6 +31,9 @@ app.get("/topdeceased", function (req, res) {
 app.get("/toptested", function (req, res) {
   db.getTested(req, res);
 });
+app.get("/continent", function (req, res) {
+  db.getByContinent(req, res);
+});
 app.get("/total", function (req, res) {
   axios({
     method: "GET",

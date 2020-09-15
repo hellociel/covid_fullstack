@@ -13,9 +13,13 @@ const Form = (props) => (
     <FormStyle onSubmit={props.onSubmit}>
       <Label>By Country</Label>
       <Select name="selection" id="selection" onChange={props.onChange}>
-        <OptionVal selected="selected">All</OptionVal>
+        <OptionVal id="currCountry" selected="selected">
+          All
+        </OptionVal>
         {countries.map((name) => (
-          <OptionVal value={name}>{name}</OptionVal>
+          <OptionVal id="currCountry" value={name}>
+            {name}
+          </OptionVal>
         ))}
       </Select>
       <Button>Submit</Button>
@@ -23,9 +27,13 @@ const Form = (props) => (
     <FormStyle onSubmit={props.onSubmit}>
       <Label>By Continents</Label>
       <Select name="selection" id="selection" onChange={props.onChange}>
-        <OptionVal selected="selected">All</OptionVal>
+        <OptionVal unselected="selected" value="global">
+          All
+        </OptionVal>
         {continents.map((name) => (
-          <OptionVal value={name}>{name}</OptionVal>
+          <OptionVal id="continent" value={name}>
+            {name}
+          </OptionVal>
         ))}
       </Select>
       <Button>Submit</Button>
@@ -34,7 +42,9 @@ const Form = (props) => (
       <Label>By Top 30</Label>
       <Select name="selection" id="selection" onChange={props.onChange}>
         <OptionVal selected="selected">All</OptionVal>
-        <OptionVal value="topcases"> Total Cases</OptionVal>
+        <OptionVal id="top30" value="topcases">
+          Total Cases
+        </OptionVal>
         <OptionVal value="topdeceased"> Total Deceased</OptionVal>
         <OptionVal value="toptested"> Total Tested</OptionVal>
       </Select>

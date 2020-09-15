@@ -13,9 +13,11 @@ import {
 } from "../styledComponents/AppStyle.jsx";
 
 const StatusBar = (props) => {
+  let name = props.data.name;
+  name === "All" ? (name = "Gloabl") : name;
   return (
     <TableWrapper>
-      <Title>{props.data.name}</Title>
+      <Title>{name}</Title>
 
       <Table>
         <MainTr>
