@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Form from "./Form.jsx";
-import Table from "./Table.jsx";
-import StatusBar from "./StatusBar.jsx";
+import CountryTable from "./CountryTable.jsx";
 import styled from "styled-components";
 import {
   BaseWrapper,
@@ -25,6 +24,8 @@ class App extends Component {
       daily: [],
       global: true,
       form: false,
+      bycontinent: false,
+      bytop30: false,
       total: [],
       tested: [],
       deceased: [],
@@ -190,7 +191,7 @@ class App extends Component {
         <LastUpdated>Updated {fromNow}</LastUpdated>
         <Form onChange={this.onChange} onSubmit={this.onSubmit} />
         {this.state.global ? <Global data={this.state.total} /> : null}
-        {this.state.form ? <StatusBar data={this.state.data} /> : null}
+        {this.state.form ? <CountryTable data={this.state.data} /> : null}
         {this.state.global ? <GlobalChart data={this.state.total} /> : null}
         {this.state.form ? <GlobalChart data={this.state.data} /> : null}
       </BaseWrapper>

@@ -122,6 +122,7 @@ const FormWrapper = styled.div`
   border-radius: 0.2em;
   justify-content: space-between;
 `;
+const FormDiv = styled.div``;
 const FormStyle = styled.form`
   position: relative;
   width: 80%;
@@ -144,8 +145,10 @@ const Select = styled.select`
   align-items: center;
   padding: 5px;
   border-radius: 0.2em;
+  font-size: 16px;
   border: none;
-  width: 200px;
+  width: 250px;
+  height: 40px;
 `;
 const OptionVal = styled.option`
   padding: 5px;
@@ -156,6 +159,7 @@ export {
   FormStyle,
   Label,
   Select,
+  FormDiv,
   OptionVal,
   Title,
   Table,

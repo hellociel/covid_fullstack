@@ -12,7 +12,7 @@ import {
   Tr,
 } from "../styledComponents/AppStyle.jsx";
 
-const StatusBar = (props) => {
+const CountryTable = (props) => {
   let name = props.data.name;
   name === "All" ? (name = "Gloabl") : name;
   return (
@@ -40,7 +40,7 @@ const StatusBar = (props) => {
         </MainTr>
         <Tr>
           <TotalTd> {props.data.totaldeaths}</TotalTd>
-          <Td> {props.data.newdeaThs} </Td>
+          <Td> {props.data.newdeaths} </Td>
         </Tr>
         <MainTr>
           <TotalTh>Total Tested</TotalTh>
@@ -53,4 +53,4 @@ const StatusBar = (props) => {
   );
 };
 
-export default StatusBar;
+export default CountryTable;
