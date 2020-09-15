@@ -79,9 +79,23 @@ const getTested = function (req, res) {
     }
   );
 };
+const getAll = function (req, res) {
+  // console.log("NAME", name);
+  connection.query(
+    `SELECT name, continent, population, totalcases FROM countries ORDER BY continent;`,
+    (err, data) => {
+      console.log("DBHITTING esult from db", data[0]);
+      if (err) {
+        res.status(404).send(err);
+      }
+      res.status(200).send(data);
+    }
+  );
+};
 
 const getByContinent = function (req, res) {
   let name = req.query.continent;
+
   // console.log("NAME", name);
   connection.query(
     `SELECT * FROM countries WHERE continent="${name}" ORDER BY (totalcases);`,
@@ -90,7 +104,7 @@ const getByContinent = function (req, res) {
       if (err) {
         res.status(404).send(err);
       }
-      res.status(200).send(data[0]);
+      res.status(200).send(data);
     }
   );
 };
@@ -143,5 +157,6 @@ exports.getCases = getCases;
 exports.getDeceased = getDeceased;
 exports.getTested = getTested;
 exports.getByContinent = getByContinent;
+exports.getAll = getAll;
 // (continent, name, population, newcases, activecases, criticalcases, recoveredcases, totalcases, newdeaths, totaldeaths, totaltests, updatedday, updatedtime)
 // `INSERT INTO countries (continent, name, population, newcases, activecases, criticalcases, recoveredcases, totalcases, newdeaths, totaldeaths, totaltests, updatedday, updatedtime) VALUES ("Asia", "Korea", 5000000, 100, 400, 40, 6, 600, 0, 200, 234567, "2020-09-11", ${updatedtime});`;

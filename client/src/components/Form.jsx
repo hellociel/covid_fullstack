@@ -31,7 +31,7 @@ const Form = (props) => (
       <FormStyle onSubmit={props.onContinentSubmit}>
         <Label>By Continents</Label>
         <Select name="selection" id="continentName" onChange={props.onChange}>
-          <OptionVal unselected="selected" value="global">
+          <OptionVal selected="selected" value="All">
             All
           </OptionVal>
           {continents.map((name) => (

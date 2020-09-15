@@ -22,6 +22,9 @@ app.get("/country", function (req, res) {
 app.get("/global", function (req, res) {
   db.getGlobal(req, res);
 });
+app.get("/all", function (req, res) {
+  db.getAll(req, res);
+});
 app.get("/topcases", function (req, res) {
   db.getCases(req, res);
 });
