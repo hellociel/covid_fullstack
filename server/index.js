@@ -16,33 +16,45 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 // Start the server on the provided port
 app.listen(PORT, () => console.log("Listening on port: " + PORT));
 
-app.get("/country", function (req, res) {
+// app.get("/world", function (req, res) {
+//   axios({
+//     method: "GET",
+//     url: "https://covid-193.p.rapidapi.com/statistics",
+//     headers: {
+//       "content-type": "application/octet-stream",
+//       "x-rapidapi-host": "covid-193.p.rapidapi.com",
+//       "x-rapidapi-key": "73c056e900mshfbab3af5eba769dp137327jsn69d1142005a4",
+//       useQueryString: true,
+//     },
+//   })
+//     .then((response) => {
+//       console.log("RESPONSE", response.data.response);
+//     })
+//     .catch((error) => {
+//       console.log("ERROR", error);
+//     });
+// });
+
+app.get("/total", function (req, res) {
   axios({
     method: "GET",
-    url: "https://covid-19-data.p.rapidapi.com/country",
+    url: "https://covid-193.p.rapidapi.com/statistics",
     headers: {
       "content-type": "application/octet-stream",
-      "x-rapidapi-host": "covid-19-data.p.rapidapi.com",
+      "x-rapidapi-host": "covid-193.p.rapidapi.com",
       "x-rapidapi-key": "73c056e900mshfbab3af5eba769dp137327jsn69d1142005a4",
       useQueryString: true,
     },
-    params: {
-      format: "json",
-      name: "italy",
-    },
   })
     .then((response) => {
-      console.log("RESPONSE", response.data);
-      res.send(response.data);
+      // console.log("RESPONSE", response.data.response);
+      let countries = response.data.response;
+      console.log(countries[5]);
+      db.saveCountries(countries);
     })
     .catch((error) => {
       console.log("ERROR", error);
     });
-});
-
-app.get("/daily", function (req, res) {
-  console.log("REQ", req);
-  db.get(req, res);
 });
 
 // var unirest = require("unirest");
