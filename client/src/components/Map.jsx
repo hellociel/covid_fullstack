@@ -52,8 +52,8 @@ const Map = (props) => {
           <Marker
             latitude={currLatitude}
             longitude={currLongitude}
-            offsetLeft={-50}
-            offsetTop={-100}
+            offsetLeft={40}
+            offsetTop={-120}
           >
             <Bubble>
               <div>{props.data.name}</div>

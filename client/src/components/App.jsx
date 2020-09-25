@@ -75,9 +75,7 @@ class App extends Component {
 
   onCountrySubmit(e) {
     e.preventDefault();
-    if (this.state.currCountry === "South Korea") {
-      this.getInfo("S-Korea");
-    } else if (this.state.currCountry === "All") {
+    if (this.state.currCountry === "All") {
       this.getGlobal();
     } else {
       this.getInfo(this.state.countryName);
@@ -114,7 +112,7 @@ class App extends Component {
       })
       .then((response) => {
         // handle success
-        // console.log("GET INFO IN APP.JSX", response);
+        console.log("NAME", name);
         //handle setting the state
         this.setState({ data: response.data });
       })
@@ -126,6 +124,7 @@ class App extends Component {
           allcontinent: false,
           bycontinent: false,
           bytop30: false,
+          map: true,
         });
       })
       .catch((error) => {
@@ -164,6 +163,7 @@ class App extends Component {
           allcontinent: true,
           bycontinent: false,
           bytop30: false,
+          map: false,
         });
       })
       .catch((error) => {
@@ -196,6 +196,7 @@ class App extends Component {
           allcontinent: false,
           bycontinent: true,
           bytop30: false,
+          map: false,
         });
       })
       .catch((error) => {
@@ -220,6 +221,7 @@ class App extends Component {
           allcontinent: false,
           bycontinent: false,
           bytop30: true,
+          map: false,
         });
       })
       .catch((error) => {
@@ -244,6 +246,7 @@ class App extends Component {
           allcontinent: false,
           bycontinent: false,
           bytop30: true,
+          map: false,
         });
       })
       .catch((error) => {
@@ -267,6 +270,7 @@ class App extends Component {
           allcontinent: false,
           bycontinent: false,
           bytop30: true,
+          map: false,
         });
       })
       .catch((error) => {
