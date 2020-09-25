@@ -1,6 +1,10 @@
 import React from "react";
 import { countries, continents } from "../csv/countriesarray.js";
-import { FormWrapper, Button } from "../styledComponents/AppStyle.jsx";
+import {
+  FormWrapper,
+  Button,
+  ChartWrapper,
+} from "../styledComponents/AppStyle.jsx";
 import { Pie } from "react-chartjs-2";
 const CountryChart = (props) => {
   const data = {
@@ -19,10 +23,10 @@ const CountryChart = (props) => {
     ],
   };
   return (
-    <div>
+    <ChartWrapper>
       <h5>Total Cases:{props.data.totalcases}</h5>
       <Pie data={data} />
-    </div>
+    </ChartWrapper>
   );
 };
 

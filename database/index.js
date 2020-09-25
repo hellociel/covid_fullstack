@@ -12,7 +12,7 @@ const getCountry = function (req, res) {
   let name = req.query.country;
   console.log("NAME", name);
   connection.query(
-    `SELECT * FROM countries WHERE name="${name}";`,
+    `SELECT * FROM countries JOIN coordinates ON countries.name = coordinates.name WHERE countries.name="${name}";`,
     (err, data) => {
       console.log("result from db", data[0]);
       if (err) {
@@ -39,28 +39,27 @@ const getCases = function (req, res) {
   let name = req.query.country;
   console.log("NAME", name);
   connection.query(
-    `SELECT name, population, newcases, totalcases FROM countries ORDER BY totalcases LIMIT 30;`,
+    `SELECT * FROM countries ORDER BY totalcases DESC LIMIT 30;`,
     (err, data) => {
       console.log("result from db", data[0]);
       if (err) {
         res.status(404).send(err);
       }
-      res.status(200).send(data[0]);
+      res.status(200).send(data);
     }
   );
 };
 
 const getDeceased = function (req, res) {
-  let name = req.query.country;
-  console.log("NAME", name);
+  console.log("GOT TO GETDECEASED");
   connection.query(
-    `SELECT name, population, newdeaths, totaldeaths, criticalcases  FROM countries ORDER BY totaldeaths LIMIT 30;`,
+    `SELECT * FROM countries ORDER BY totaldeaths DESC LIMIT 30;`,
     (err, data) => {
       console.log("result from db", data[0]);
       if (err) {
         res.status(404).send(err);
       }
-      res.status(200).send(data[0]);
+      res.status(200).send(data);
     }
   );
 };
@@ -69,9 +68,9 @@ const getTested = function (req, res) {
   let name = req.query.country;
   // console.log("NAME", name);
   connection.query(
-    `SELECT name, population, totaltests FROM countries ORDER BY (totaltests/population) LIMIT 30;`,
+    `SELECT * FROM countries ORDER BY totaltests DESC LIMIT 30;`,
     (err, data) => {
-      console.log("result from db", data[0]);
+      console.log("result from db", data);
       if (err) {
         res.status(404).send(err);
       }

@@ -14,7 +14,7 @@ import {
 
 const CountryTable = (props) => {
   let name = props.data.name;
-  name === "All" ? (name = "Gloabl") : name;
+  name === "All" ? (name = "Global") : name;
   return (
     <TableWrapper>
       <Title>{name}</Title>

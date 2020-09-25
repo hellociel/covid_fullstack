@@ -13,8 +13,10 @@ import {
 import GlobalChart from "./GlobalChart.jsx";
 import ContinentTable from "./ContinentTable.jsx";
 import Top30Table from "./Top30Table.jsx";
+import Top30Chart from "./Top30Chart.jsx";
 import Global from "./Global.jsx";
 import moment from "moment";
+import Map from "./Map.jsx";
 // import fs from "fs";
 // const fs = require("fs");
 
@@ -28,9 +30,11 @@ class App extends Component {
       daily: [],
       global: true,
       form: false,
+      bycountry: false,
       allcontinent: false,
       bycontinent: false,
       bytop30: false,
+      map: true,
       top30Name: "",
       countryName: "",
       continentName: "",
@@ -44,9 +48,11 @@ class App extends Component {
       totalcases: [],
       totaltested: [],
       totaldeceased: [],
+      latitude: 0,
+      longitude: 0,
     };
     this.getInfo = this.getInfo.bind(this);
-    this.setCountry = this.setCountry.bind(this);
+    // // this.setCountry = this.setCountry.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onCountrySubmit = this.onCountrySubmit.bind(this);
     this.onContinentSubmit = this.onContinentSubmit.bind(this);
@@ -90,7 +96,13 @@ class App extends Component {
 
   onTop30Submit(e) {
     e.preventDefault();
-    this.getByTop30(this.state.Top30Name);
+    if (this.state.top30Name === "topcases") {
+      this.getTop30Cases();
+    } else if (this.state.top30Name === "topdeceased") {
+      this.getTop30Deceased();
+    } else if (this.state.top30Name === "toptested") {
+      this.getTop30Tested;
+    }
   }
 
   getInfo(name) {
@@ -107,7 +119,14 @@ class App extends Component {
         this.setState({ data: response.data });
       })
       .then(() => {
-        this.setState({ global: false, form: true });
+        this.setState({
+          global: false,
+          form: false,
+          bycountry: true,
+          allcontinent: false,
+          bycontinent: false,
+          bytop30: false,
+        });
       })
       .catch((error) => {
         // handle error
@@ -138,7 +157,14 @@ class App extends Component {
         this.setState({ all: response.data });
       })
       .then(() => {
-        this.setState({ allcontinent: true });
+        this.setState({
+          global: false,
+          form: false,
+          bycountry: false,
+          allcontinent: true,
+          bycontinent: false,
+          bytop30: false,
+        });
       })
       .catch((error) => {
         // handle error
@@ -163,7 +189,14 @@ class App extends Component {
         // handle success
         // console.log("GLOBAL", response.data);
 
-        this.setState({ bycontinent: true });
+        this.setState({
+          global: false,
+          form: false,
+          bycountry: false,
+          allcontinent: false,
+          bycontinent: true,
+          bytop30: false,
+        });
       })
       .catch((error) => {
         // handle error
@@ -177,7 +210,17 @@ class App extends Component {
         // handle success
         // console.log("GLOBAL", response.data);
 
-        this.setState({ totalcases: response.data });
+        this.setState({ top30: response.data });
+      })
+      .then(() => {
+        this.setState({
+          global: false,
+          form: false,
+          bycountry: false,
+          allcontinent: false,
+          bycontinent: false,
+          bytop30: true,
+        });
       })
       .catch((error) => {
         // handle error
@@ -191,7 +234,17 @@ class App extends Component {
         // handle success
         // console.log("GLOBAL", response.data);
 
-        this.setState({ totaldeceased: response.data });
+        this.setState({ top30: response.data });
+      })
+      .then(() => {
+        this.setState({
+          global: false,
+          form: false,
+          bycountry: false,
+          allcontinent: false,
+          bycontinent: false,
+          bytop30: true,
+        });
       })
       .catch((error) => {
         // handle error
@@ -204,17 +257,24 @@ class App extends Component {
       .then((response) => {
         // handle success
         // console.log("GLOBAL", response.data);
-        this.setState({ totaltested: response.data });
+        this.setState({ top30: response.data });
+      })
+      .then(() => {
+        this.setState({
+          global: false,
+          form: false,
+          bycountry: false,
+          allcontinent: false,
+          bycontinent: false,
+          bytop30: true,
+        });
       })
       .catch((error) => {
         // handle error
+        this.setStat;
         console.log(error);
       });
   }
-
-  tableToggle(name) {}
-
-  ChartToggle(name) {}
 
   setStatus(name) {
     this.setState({
@@ -239,13 +299,14 @@ class App extends Component {
     return (
       <BaseWrapper>
         <MainTitle>COVID-19 Tracker</MainTitle>
-        <LastUpdated>Updated {fromNow}</LastUpdated>
+        <LastUpdated>Updated 2 hours ago</LastUpdated>
         <Form
           onChange={this.onChange}
           onCountrySubmit={this.onCountrySubmit}
           onContinentSubmit={this.onContinentSubmit}
           onTop30Submit={this.onTop30Submit}
         />
+        {this.state.map ? <Map data={this.state.data} /> : null}
         {this.state.allcontinent ? (
           <ContinentChart total={this.state.all} />
         ) : null}
@@ -254,24 +315,21 @@ class App extends Component {
         ) : null}
 
         {this.state.global ? <Global data={this.state.total} /> : null}
-        {this.state.form ? <CountryTable data={this.state.data} /> : null}
+        {this.state.bycountry ? <CountryTable data={this.state.data} /> : null}
         {this.state.allcontinent || this.state.bycontinent ? (
           <ContinentTable
             data={this.state.all}
-            total={this.state.continent}
+            continent={this.state.continents}
+            total={this.state.total}
             name={this.state.continentName}
           />
         ) : null}
 
         {this.state.bytop30 ? (
-          <Top30Table
-            totalcases={this.state.totalcases}
-            totaldeaths={this.state.totaldeaths}
-            totaltested={this.state.tested}
-          />
+          <Top30Chart data={this.state.top30} name={this.state.top30Name} />
         ) : null}
         {this.state.global ? <GlobalChart data={this.state.total} /> : null}
-        {this.state.form ? <GlobalChart data={this.state.data} /> : null}
+        {this.state.bycountry ? <GlobalChart data={this.state.data} /> : null}
       </BaseWrapper>
     );
   }

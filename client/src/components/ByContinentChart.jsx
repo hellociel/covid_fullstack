@@ -1,5 +1,10 @@
 import React from "react";
 import { HorizontalBar } from "react-chartjs-2";
+import {
+  FormWrapper,
+  Button,
+  ChartWrapper,
+} from "../styledComponents/AppStyle.jsx";
 
 const ByContinentChart = (props) => {
   console.log("JEREDWEFEWUIHO", props.data[0].name);
@@ -8,7 +13,7 @@ const ByContinentChart = (props) => {
   //   let name = props.data[0].name;
   for (let i = 0; i < props.data.length; i++) {
     countryNames.push(props.data[i].name);
-    dataarr.push(props.data[i].datacases);
+    dataarr.push(props.data[i].totalcases);
   }
 
   const data = {
@@ -27,10 +32,10 @@ const ByContinentChart = (props) => {
   };
 
   return (
-    <div>
+    <ChartWrapper>
       <h2>{name} Total Case Status</h2>
       <HorizontalBar data={data} />
-    </div>
+    </ChartWrapper>
   );
 };
 

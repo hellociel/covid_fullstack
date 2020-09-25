@@ -12,6 +12,7 @@ const BaseWrapper = styled.div`
   color: #383838;
   align-items: center;
   justify-content: center;
+  margin-bottom: 300px;
 `;
 const MainTitle = styled.h1`
   padding: 30px;
@@ -29,6 +30,15 @@ const LastUpdated = styled.h3`
   text-align: right;
 `;
 
+const Bubble = styled.button`
+  padding: 20px;
+  font-size: 20px;
+  text-align: center;
+  border: 5px solid #909090;
+  border-radius: 2em;
+  color: #f05f3b;
+`;
+
 // const Label = styled.label``;
 
 const Button = styled.button`
@@ -40,6 +50,7 @@ const Button = styled.button`
   color: #007872;
   font-weight: bold;
   background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
   &:hover {
     border: 1px solid #007872;
     padding: 8px 10px;
@@ -55,12 +66,32 @@ const Button = styled.button`
 const TableWrapper = styled.div`
   padding: 20px;
   background-color: white;
-  border: 0.5px solid #cccccc;
-  border-radius: 0.2em;
 
+  border-radius: 0.2em;
   justify-content: space-between;
   align-items: center;
   margin-top: 30px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
+`;
+const MapWrapper = styled.div`
+  padding: 20px;
+  background-color: white;
+
+  border-radius: 0.2em;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
+`;
+const ChartWrapper = styled.div`
+  padding: 20px;
+  background-color: white;
+
+  border-radius: 0.2em;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
 `;
 
 const Table = styled.table`
@@ -118,6 +149,7 @@ const MainTr = styled.tr`
 const FormWrapper = styled.div`
   padding: 30px;
   background-color: #a5c5c3;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
   display: flex;
   border-radius: 0.2em;
   justify-content: space-between;
@@ -173,4 +205,7 @@ export {
   MainTr,
   MainTitle,
   LastUpdated,
+  Bubble,
+  MapWrapper,
+  ChartWrapper,
 };

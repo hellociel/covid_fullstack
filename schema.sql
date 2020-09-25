@@ -45,7 +45,13 @@ CREATE TABLE countries (
     PRIMARY KEY(id)
 );
 
-
+CREATE TABLE coordinates (
+    id INT AUTO_INCREMENT,
+    name VARCHAR(100),
+    latitude float,
+    longitude float,
+    PRIMARY KEY(id)
+);
 -- continent: 'North-America',
 --     country: 'Trinidad-and-Tobago',
 --     population: 1400419,
@@ -61,3 +67,6 @@ CREATE TABLE countries (
 --     tests: { '1M_pop': '19284', total: 27006 },
 --     day: '2020-09-14',
 --     time: '2020-09-14T22:00:07+00:00'
+
+
+LOAD DATA LOCAL INFILE '/Users/ciel/Desktop/mvp-worldcovidstatus/client/src/csv/coordinates.csv' INTO TABLE coordinates FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS (name, latitude, longitude);

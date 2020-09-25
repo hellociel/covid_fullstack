@@ -13,27 +13,35 @@ import {
 } from "../styledComponents/AppStyle.jsx";
 
 const Top30Table = (props) => {
-  let totalcases = props.totalcases;
-  let totaldeaths = props.totaldeaths;
-  let totaltested = props.totaltested;
-  let cases = false;
-  let deaths = false;
-  let tested = false;
+  let givendata = {};
+  let total = 0;
+  let newcase = 0;
+  let active = 0;
+  let critical = 0;
+  let recovered = 0;
+  let totaldeaths = 0;
+  let newdeaths = 0;
 
-  let name = "";
-
-  if (totalcases.length > 1) {
-    name = "Top 30 Countries - Total Cases";
-  } else if (totaldeaths.length > 1) {
-    name = "Top 30 Countries - Total Deceased";
-  } else if (totaltested.length > 1) {
-    name = "Top 30 Countries - Total Tested";
+  for (let i = 0; i < props.data.length; i++) {
+    total += props.data[i].totalcases;
+    newcase = props.data[i];
+    active += props.data[i].activecases;
+    critical += props.data[i].criticalcases;
+    recovered += props.data[i].recoveredcases;
+    totaldeaths += props.data[i].totaldeaths;
+    newdeaths += props.data[i].newdeaths;
   }
+  givendata.totalcases = total;
+  givendata.newcases = newcase;
+  givendata.activecases = active;
+  givendata.criticalcases = critical;
+  givendata.recoveredcases = recovered;
+  givendata.totaldeaths = totaldeaths;
+  givendata.newdeaths = newdeaths;
 
-  name === "All" ? (name = "Gloabal") : name;
   return (
     <TableWrapper>
-      <Title>{name}</Title>
+      <Title>Top 30 Data</Title>
 
       <Table>
         <MainTr>
@@ -44,25 +52,25 @@ const Top30Table = (props) => {
           <Th>Recovered Cases</Th>
         </MainTr>
         <Tr>
-          <TotalTd>{props.data.totalcases}</TotalTd>
-          <Td>{props.data.newcases}</Td>
-          <Td>{props.data.activecases}</Td>
-          <Td>{props.data.criticalcases}</Td>
-          <Td>{props.data.recoveredcases}</Td>
+          <TotalTd>{givendata.totalcases}</TotalTd>
+          <Td>{givendata.newcases}</Td>
+          <Td>{givendata.activecases}</Td>
+          <Td>{givendata.criticalcases}</Td>
+          <Td>{givendata.recoveredcases}</Td>
         </Tr>
         <MainTr>
           <TotalTh>Total Deceased</TotalTh>
           <Th>New Deceased</Th>
         </MainTr>
         <Tr>
-          <TotalTd> {props.data.totaldeaths}</TotalTd>
-          <Td> {props.data.newdeaths} </Td>
+          <TotalTd> {givendata.totaldeaths}</TotalTd>
+          <Td> {givendata.newdeaths} </Td>
         </Tr>
         <MainTr>
           <TotalTh>Total Tested</TotalTh>
         </MainTr>
         <Tr>
-          <TotalTd> {props.data.totaltests}</TotalTd>
+          <TotalTd> {givendata.totaltests}</TotalTd>
         </Tr>
       </Table>
     </TableWrapper>

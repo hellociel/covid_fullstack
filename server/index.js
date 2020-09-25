@@ -32,6 +32,7 @@ app.get("/topdeceased", function (req, res) {
   db.getDeceased(req, res);
 });
 app.get("/toptested", function (req, res) {
+  console.log("tested in server");
   db.getTested(req, res);
 });
 app.get("/continent", function (req, res) {
