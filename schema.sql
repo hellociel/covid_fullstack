@@ -29,4 +29,4 @@ CREATE TABLE coordinates (
 );
 
 
-LOAD DATA LOCAL INFILE '/Users/ciel/Desktop/mvp-worldcovidstatus/client/src/csv/coordinates.csv' INTO TABLE coordinates FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS (name, latitude, longitude);
+LOAD DATA LOCAL INFILE '/Users/ciel/Desktop/covid_fullstack/client/src/csv/coordinates.csv' INTO TABLE coordinates FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS (name, latitude, longitude);

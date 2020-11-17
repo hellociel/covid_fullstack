@@ -52,7 +52,6 @@ class App extends Component {
       longitude: 0,
     };
     this.getInfo = this.getInfo.bind(this);
-    // // this.setCountry = this.setCountry.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onCountrySubmit = this.onCountrySubmit.bind(this);
     this.onContinentSubmit = this.onContinentSubmit.bind(this);
