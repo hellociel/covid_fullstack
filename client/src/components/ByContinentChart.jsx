@@ -7,7 +7,6 @@ import {
 } from "../styledComponents/AppStyle.jsx";
 
 const ByContinentChart = (props) => {
-  console.log("JEREDWEFEWUIHO", props.data[0].name);
   let countryNames = [];
   let dataarr = [];
   //   let name = props.data[0].name;

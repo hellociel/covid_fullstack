@@ -38,19 +38,22 @@ app.get("/toptested", function (req, res) {
 app.get("/continent", function (req, res) {
   db.getByContinent(req, res);
 });
+
+var options = {
+  method: "GET",
+  url: "https://covid-193.p.rapidapi.com/statistics",
+  headers: {
+    "x-rapidapi-key": "be8602e237msh53413be8a6cc1bbp117009jsnc943b3810ebf",
+    "x-rapidapi-host": "covid-193.p.rapidapi.com",
+  },
+};
+
 app.get("/total", function (req, res) {
-  axios({
-    method: "GET",
-    url: "https://covid-193.p.rapidapi.com/statistics",
-    headers: {
-      "content-type": "application/octet-stream",
-      "x-rapidapi-host": "covid-193.p.rapidapi.com",
-      "x-rapidapi-key": "73c056e900mshfbab3af5eba769dp137327jsn69d1142005a4",
-      useQueryString: true,
-    },
-  })
+  console.log("total");
+  axios
+    .request(options)
     .then((response) => {
-      // console.log("RESPONSE", response.data.response);
+      console.log("RESPONSE from api", response.data.response);
       let countries = response.data.response;
       console.log(countries[5]);
       db.saveCountries(countries);

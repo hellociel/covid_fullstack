@@ -3,7 +3,8 @@ var mysql = require("mysql");
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  database: "worldcorona",
+  password: "meow",
+  database: "covid_tracker",
 });
 
 connection.connect();
@@ -66,7 +67,6 @@ const getDeceased = function (req, res) {
 
 const getTested = function (req, res) {
   let name = req.query.country;
-  // console.log("NAME", name);
   connection.query(
     `SELECT * FROM countries ORDER BY totaltests DESC LIMIT 30;`,
     (err, data) => {
@@ -79,7 +79,6 @@ const getTested = function (req, res) {
   );
 };
 const getAll = function (req, res) {
-  // console.log("NAME", name);
   connection.query(
     `SELECT name, continent, population, totalcases FROM countries ORDER BY continent;`,
     (err, data) => {
@@ -95,7 +94,6 @@ const getAll = function (req, res) {
 const getByContinent = function (req, res) {
   let name = req.query.continent;
 
-  // console.log("NAME", name);
   connection.query(
     `SELECT * FROM countries WHERE continent="${name}" ORDER BY (totalcases);`,
     (err, data) => {
@@ -107,15 +105,6 @@ const getByContinent = function (req, res) {
     }
   );
 };
-// const getCountryNames = function (req, res) {
-//   connection.query(`SELECT name FROM countries WHERE id > 120;`, (err, data) => {
-//     if (err) {
-//       res.status(404).send(err);
-//     } else {
-//       res.status(200).send(data);
-//     }
-//   });
-// };
 
 const saveCountries = function (countries) {
   // console.log(countries[0]);
@@ -136,18 +125,11 @@ const saveCountries = function (countries) {
     let updatedtime =
       updatedday + " " + countries[i].time.split("+")[0].split("T")[1];
 
-    // updatedday + " " + countries[i].time.split("+")[0].split("T")[1];
-    // console.log("TIME", updatedtime);
     connection.query(
       `INSERT INTO countries (continent, name, population, newcases, activecases, criticalcases, recoveredcases, totalcases, newdeaths, totaldeaths, totaltests, updatedday, updatedtime) VALUES ("${continent}", "${name}", ${population}, "${newcases}", ${activecases}, ${criticalcases}, ${recoveredcases}, ${totalcases}, ${newdeaths}, ${totaldeaths}, ${totaltests}, "${updatedday}", "${updatedtime}");`
     );
   }
 };
-
-// connection.query("SELECT 1 + 1 AS solution"=""let function (error="" results, fields) {
-//   if (error) throw error;
-//   console.log("The solution is: ", results[0].solution);
-// });
 
 exports.getCountry = getCountry;
 exports.getGlobal = getGlobal;

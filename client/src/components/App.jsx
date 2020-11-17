@@ -62,6 +62,7 @@ class App extends Component {
     this.getTop30Deceased = this.getTop30Deceased.bind(this);
     this.getTop30Tested = this.getTop30Tested.bind(this);
     this.setStatus = this.setStatus.bind(this);
+    this.getCurrentTotal = this.getCurrentTotal.bind(this);
   }
 
   onChange(e) {
@@ -111,9 +112,6 @@ class App extends Component {
         },
       })
       .then((response) => {
-        // handle success
-        console.log("NAME", name);
-        //handle setting the state
         this.setState({ data: response.data });
       })
       .then(() => {
@@ -172,6 +170,24 @@ class App extends Component {
       });
   }
 
+  getCurrentTotal() {
+    axios
+      .get("/total")
+      .then((response) => {
+        // handle success
+        console.log("All", response.data);
+
+        this.setState({ all: response.data });
+      })
+      .then(() => {
+        console.log("api call successful");
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
+  }
+
   getByContinent(continent) {
     axios
       .get("/continent", {
@@ -180,15 +196,9 @@ class App extends Component {
         },
       })
       .then((response) => {
-        // handle success
-        // console.log("GLOBAL", response.data);
-
         this.setState({ continents: response.data });
       })
       .then(() => {
-        // handle success
-        // console.log("GLOBAL", response.data);
-
         this.setState({
           global: false,
           form: false,
@@ -208,9 +218,6 @@ class App extends Component {
     axios
       .get("/topcases")
       .then((response) => {
-        // handle success
-        // console.log("GLOBAL", response.data);
-
         this.setState({ top30: response.data });
       })
       .then(() => {
@@ -233,9 +240,6 @@ class App extends Component {
     axios
       .get("/topdeceased")
       .then((response) => {
-        // handle success
-        // console.log("GLOBAL", response.data);
-
         this.setState({ top30: response.data });
       })
       .then(() => {
@@ -259,7 +263,6 @@ class App extends Component {
       .get("/toptested")
       .then((response) => {
         // handle success
-        // console.log("GLOBAL", response.data);
         this.setState({ top30: response.data });
       })
       .then(() => {
@@ -275,7 +278,6 @@ class App extends Component {
       })
       .catch((error) => {
         // handle error
-        this.setStat;
         console.log(error);
       });
   }
@@ -294,7 +296,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // this.getInfo("Italy");
+    // this.getCurrentTotal(); => API Call
     this.getGlobal();
   }
   render() {
@@ -310,7 +312,7 @@ class App extends Component {
           onContinentSubmit={this.onContinentSubmit}
           onTop30Submit={this.onTop30Submit}
         />
-        {this.state.map ? <Map data={this.state.data} /> : null}
+        {/* {this.state.map ? <Map data={this.state.data} /> : null} */}
         {this.state.allcontinent ? (
           <ContinentChart total={this.state.all} />
         ) : null}
